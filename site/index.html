@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chili's Filter for GitHub</title>
+  <meta name="description" content="A Chrome extension that hides generated code, lock files and snapshots from GitHub pull requests, so you review only the code a person wrote.">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,200..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top wrap">
+    <a class="brand" href="./">
+      <img src="icons/icon.svg" alt="" width="32" height="32">
+      <span>Chili's Filter <span class="brand-for">for GitHub</span></span>
+    </a>
+    <a class="top-link" href="https://github.com/sergchil/chilis-filter-for-github">Source on GitHub</a>
+  </header>
+
+  <main>
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <h1 id="hero-title" class="diff-title">
+        <span class="diff-line del"><span class="sign" aria-hidden="true">−</span><span class="sr-only">Before: </span><span class="text"><span id="hero-total">17</span> files changed</span></span>
+        <span class="diff-line add"><span class="sign" aria-hidden="true">+</span><span class="sr-only">After: </span><span class="text"><span id="hero-left">7</span> worth reading</span></span>
+      </h1>
+      <p class="lede">A Chrome extension that hides generated code, lock files and snapshots from GitHub pull requests, so you review only the code a person wrote.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://github.com/sergchil/chilis-filter-for-github/releases/latest">Download for Chrome</a>
+        <a class="btn" href="#demo-title">Try the demo</a>
+      </div>
+    </section>
+
+    <section class="demo wrap" aria-labelledby="demo-title">
+      <div class="demo-head">
+        <h2 id="demo-title">Try it on a real pull request</h2>
+        <p>These are the files from <a id="demo-source" href="https://github.com/temporalio/temporal/pull/12206">temporalio/temporal #12206</a>. Flip the shortcuts and watch the list change.</p>
+      </div>
+
+      <div class="demo-box">
+        <div class="panel" id="panel">
+          <div class="panel-count" aria-live="polite"><b id="count-hidden">0</b> of <span id="count-total">17</span> files hidden</div>
+          <div class="meter" aria-hidden="true"><span id="meter"></span></div>
+          <div class="tabs" role="tablist" aria-label="Language" id="tabs"></div>
+          <div class="rows" id="rows"></div>
+          <label class="try">
+            <span>Try your own pattern</span>
+            <input id="custom" type="text" spellcheck="false" autocomplete="off" placeholder=".proto  or  service/**/*.go">
+          </label>
+        </div>
+
+        <ol class="files" id="files" aria-label="Changed files"></ol>
+      </div>
+    </section>
+
+    <section class="features wrap" aria-label="Features">
+      <article class="feature">
+        <div class="feature-text">
+          <h2>Right where you review</h2>
+          <p>A funnel button appears next to GitHub's own "Filter files". One click, and generated code, lock files and snapshots leave the diff and the file tree.</p>
+        </div>
+        <img src="screenshots/filtered.png" alt="A GitHub pull request with the filter pop-up open: No noise and No tests are on, and 10 of 17 files are hidden" width="1600" height="1000" loading="lazy">
+      </article>
+
+      <article class="feature">
+        <div class="feature-text">
+          <h2>Know before you switch</h2>
+          <p>Every shortcut tells you how many files it would hide in the pull request in front of you. No guessing, no surprises.</p>
+        </div>
+        <img src="img/popup-close.png" alt="Close-up of the filter pop-up: No noise is on and hides 4 files, No tests would hide 6" width="1400" height="700" loading="lazy">
+      </article>
+
+      <article class="feature">
+        <div class="feature-text">
+          <h2>Made for your stack</h2>
+          <p>Go, C# and Flutter work out of the box. Add any language with your own patterns, or let your AI assistant write them: one click copies a ready prompt for your repository.</p>
+        </div>
+        <img src="screenshots/settings.png" alt="The settings page with Go, C# and Flutter tabs and the pattern editor" width="1600" height="1000" loading="lazy">
+      </article>
+    </section>
+
+    <section class="promise wrap" aria-labelledby="promise-title">
+      <h2 id="promise-title">Your code stays yours</h2>
+      <p>It runs only on github.com, reads nothing but file names, and sends nothing anywhere. No account, no analytics, no network requests.</p>
+    </section>
+
+    <section class="cta wrap" id="install" aria-labelledby="cta-title">
+      <h2 id="cta-title">Review the code that matters</h2>
+      <a class="btn btn-primary btn-big" href="https://github.com/sergchil/chilis-filter-for-github/releases/latest">Download for Chrome</a>
+      <p class="cta-note">Free and open source. Unzip it, open <code>chrome://extensions</code>, turn on Developer mode and click Load unpacked.</p>
+    </section>
+  </main>
+
+  <footer class="foot wrap">
+    <span>Free to use, change and share under the <a href="https://github.com/sergchil/chilis-filter-for-github/blob/master/LICENSE">WTFPL</a>.</span>
+    <a href="https://github.com/sergchil/chilis-filter-for-github">github.com/sergchil/chilis-filter-for-github</a>
+  </footer>
+
+  <script src="shared.js"></script>
+  <script src="demo.js"></script>
+</body>
+</html>
