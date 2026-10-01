@@ -1,0 +1,187 @@
+.ghx-hidden { display: none !important; }
+
+.ghx-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+.ghx-bar.ghx-floating {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 1000;
+  padding: 6px;
+  border-radius: 8px;
+  background: var(--bgColor-default, #fff);
+  box-shadow: 0 8px 24px rgba(140, 149, 159, 0.3);
+}
+
+.ghx-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  min-width: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--button-default-borderColor-rest, var(--borderColor-default, #d0d7de));
+  border-radius: 6px;
+  background: var(--button-default-bgColor-rest, #f6f8fa);
+  color: var(--button-default-fgColor-rest, var(--fgColor-default, #25292e));
+  font: 600 14px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.ghx-btn:hover { background: var(--button-default-bgColor-hover, #eff2f5); }
+.ghx-btn.ghx-on {
+  background: #e5391b;
+  border-color: rgba(65, 21, 23, 0.2);
+  color: #fff;
+}
+.ghx-btn.ghx-on:hover { background: #c42d12; }
+.ghx-trigger { gap: 6px; padding: 0 8px; }
+.ghx-count { font-size: 12px; font-weight: 600; }
+
+.ghx-menu {
+  --ghx-accent: #e5391b;
+  --ghx-accent-press: #c42d12;
+  position: fixed;
+  z-index: 1000;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  max-height: min(72vh, 520px);
+  border: 1px solid var(--borderColor-default, #d1d9e0);
+  border-radius: 16px;
+  background: var(--overlay-bgColor, #fff);
+  color: var(--fgColor-default, #1f2328);
+  box-shadow: var(--shadow-floating-large, 0 12px 32px rgba(31, 35, 40, 0.18), 0 2px 6px rgba(31, 35, 40, 0.08));
+  font: 14px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+  overflow: hidden;
+  animation: ghx-pop 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes ghx-pop { from { opacity: 0; transform: translateY(-4px) scale(0.98); } to { opacity: 1; transform: none; } }
+
+.ghx-head { padding: 14px 16px 12px; }
+.ghx-title { font-size: 13px; color: var(--fgColor-muted, #59636e); }
+.ghx-title b { font-size: 20px; font-weight: 600; color: var(--fgColor-default, #1f2328); margin-right: 2px; letter-spacing: -0.01em; }
+.ghx-meter { height: 4px; margin-top: 10px; border-radius: 999px; background: var(--bgColor-neutral-muted, #818b981f); overflow: hidden; }
+.ghx-meter span { display: block; height: 100%; border-radius: inherit; background: var(--ghx-accent); transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+
+.ghx-tabs {
+  display: flex;
+  gap: 2px;
+  margin: 0 12px 6px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--bgColor-neutral-muted, #818b981f);
+}
+.ghx-tab {
+  position: relative;
+  flex: 1;
+  height: 28px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--fgColor-muted, #59636e);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.ghx-tab:hover { color: var(--fgColor-default, #1f2328); }
+.ghx-tab[aria-selected="true"] {
+  background: var(--bgColor-default, #fff);
+  color: var(--fgColor-default, #1f2328);
+  box-shadow: 0 1px 3px rgba(31, 35, 40, 0.12), 0 0 0 1px var(--borderColor-muted, #d1d9e0b3);
+}
+.ghx-tab-dot { position: absolute; top: 5px; right: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--ghx-accent); }
+
+.ghx-list { overflow-y: auto; padding: 4px 6px 6px; }
+.ghx-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 9px 10px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.ghx-row:hover { background: var(--control-transparent-bgColor-hover, #818b981a); }
+.ghx-row:focus-visible { outline: 2px solid var(--focus-outlineColor, #0969da); outline-offset: -2px; }
+
+.ghx-switch {
+  position: relative;
+  flex-shrink: 0;
+  width: 32px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--bgColor-neutral-emphasis, #818b98);
+  opacity: 0.45;
+  transition: background 0.2s, opacity 0.2s;
+}
+.ghx-switch::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.ghx-row.is-on .ghx-switch { background: var(--ghx-accent); opacity: 1; }
+.ghx-row.is-on .ghx-switch::after { transform: translateX(14px); }
+
+.ghx-row-text { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.ghx-row-label { font-weight: 600; }
+.ghx-row-sub { font-size: 12px; color: var(--fgColor-muted, #59636e); }
+.ghx-row-count {
+  flex-shrink: 0;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--bgColor-neutral-muted, #818b981f);
+  color: var(--fgColor-default, #1f2328);
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.ghx-row-count.is-zero { background: transparent; color: var(--fgColor-muted, #59636e); font-weight: 400; }
+.ghx-row.is-on .ghx-row-count:not(.is-zero) { background: color-mix(in srgb, var(--ghx-accent) 14%, transparent); color: var(--ghx-accent-press); }
+
+.ghx-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  border-top: 1px solid var(--borderColor-muted, #d1d9e0b3);
+  background: var(--bgColor-muted, #f6f8fa);
+}
+.ghx-foot-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--fgColor-default, #1f2328);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.ghx-foot-btn:hover:not(:disabled) { background: var(--control-transparent-bgColor-hover, #818b981a); }
+.ghx-foot-btn:disabled { color: var(--fgColor-disabled, #818b98); font-weight: 400; cursor: default; }
+.ghx-foot-settings { color: var(--fgColor-muted, #59636e); }

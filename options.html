@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chili's Filter for GitHub</title>
+  <script src="theme.js"></script>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <canvas id="liquid" aria-hidden="true"></canvas>
+
+  <main>
+    <div class="topbar">
+      <div class="brand">
+        <span class="brand-mark"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M14.2 7.1c2.9-.3 5 1.9 4.4 4.9-1 5.1-6.4 8.9-12.6 9.3-1 .1-1.4-1.2-.6-1.7 3.9-2.4 5.2-5.7 5.6-9.1.2-1.9 1.3-3.2 3.2-3.4z" fill="currentColor"/><path d="M14.6 7.2c-.2-1.9.6-3.5 2.4-4.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="brand-name">Chili's Filter <span>for GitHub</span></span>
+      </div>
+      <div class="picker">
+        <div class="seg" id="style-picker" role="radiogroup" aria-label="Theme style">
+          <button type="button" role="radio" data-style="liquid">Liquid</button>
+          <button type="button" role="radio" data-style="github">GitHub</button>
+          <button type="button" role="radio" data-style="shadcn">shadcn</button>
+        </div>
+        <div class="seg icons" id="mode-picker" role="radiogroup" aria-label="Light or dark">
+          <button type="button" role="radio" data-mode="system" title="Match system" aria-label="Match system"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 14h5M8 11.5V14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+          <button type="button" role="radio" data-mode="light" title="Light" aria-label="Light"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><circle cx="8" cy="8" r="3" fill="currentColor"/><path d="M8 1v1.6M8 13.4V15M1 8h1.6M13.4 8H15M3.05 3.05l1.13 1.13M11.82 11.82l1.13 1.13M3.05 12.95l1.13-1.13M11.82 4.18l1.13-1.13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+          <button type="button" role="radio" data-mode="dark" title="Dark" aria-label="Dark"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M13.5 10.2A6 6 0 0 1 5.8 2.5a6 6 0 1 0 7.7 7.7z" fill="currentColor"/></svg></button>
+        </div>
+      </div>
+    </div>
+    <header class="hero">
+      <h1>Review what <br>matters.</h1>
+      <p class="lede">Shortcuts that hide generated code, snapshots and lock files from a pull request, so the diff you read is the diff someone wrote.</p>
+    </header>
+
+    <div class="layout">
+      <div class="shortcuts">
+        <div class="tabbar">
+          <div id="lang-tabs" class="lang-tabs" role="tablist" aria-label="Languages"></div>
+          <button id="add-group" class="add-tab" type="button" aria-label="Add a language" title="Add a language">
+            <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 2.5v11M2.5 8h11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <span>Language</span>
+          </button>
+        </div>
+        <div id="groups" role="tabpanel"></div>
+      </div>
+    </div>
+
+    <details class="help glass">
+      <summary>How patterns match</summary>
+      <dl>
+        <div><dt><code class="t-ext">.go</code> <code class="t-ext">_test.go</code></dt><dd>End of the file name.</dd></div>
+        <div><dt><code class="t-pre">mock_</code></dt><dd>Start of the file name.</dd></div>
+        <div><dt><code class="t-dir">vendor/</code></dt><dd>A folder anywhere in the path.</dd></div>
+        <div><dt><code class="t-glob">*.pb.go</code> <code class="t-glob">api/**/*.json</code></dt><dd>Globs. <code>*</code> stays inside one folder, <code>**</code> crosses folders.</dd></div>
+        <div><dt><code class="t-com"># note</code></dt><dd>A comment. Ignored.</dd></div>
+      </dl>
+      <p>Hide always wins over Show only. Everything runs in your browser. Nothing is sent anywhere.</p>
+    </details>
+  </main>
+
+  <div id="savebar" class="savebar glass" role="region" aria-label="Unsaved changes" hidden>
+    <span>You have unsaved changes.</span>
+    <button id="reset" class="btn ghost" type="button">Restore defaults</button>
+    <button id="discard" class="btn ghost" type="button">Discard</button>
+    <button id="save" class="btn primary" type="button">Save changes <kbd>⌘S</kbd></button>
+  </div>
+  <div id="toast" class="toast glass" role="status" aria-live="polite"></div>
+
+  <template id="group-tpl">
+    <section class="group">
+      <div class="group-head">
+        <input class="group-name" type="text" spellcheck="false" aria-label="Language name" placeholder="Name this language">
+        <span class="group-count"></span>
+        <div class="group-actions">
+          <button class="btn ghost copy-prompt" type="button" title="Copy a prompt that asks your AI assistant to suggest filters for this language">
+            <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M8 1.5l1.6 3.9 3.9 1.6-3.9 1.6L8 12.5 6.4 8.6 2.5 7l3.9-1.6z" fill="currentColor"/><path d="M13 11l.7 1.3L15 13l-1.3.7L13 15l-.7-1.3L11 13l1.3-.7z" fill="currentColor"/></svg>
+            Copy AI prompt
+          </button>
+          <button class="btn ghost add-shortcut" type="button">
+            <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M8 2.5v11M2.5 8h11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            Shortcut
+          </button>
+          <button class="icon remove-group" type="button" aria-label="Remove this language">
+            <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="group-list"></div>
+    </section>
+  </template>
+
+  <template id="card-tpl">
+    <article class="card glass">
+      <div class="card-head">
+        <button class="switch" type="button" role="switch" aria-checked="false" title="Use on pull requests"><span></span></button>
+        <input class="label" type="text" spellcheck="false" aria-label="Shortcut name" placeholder="Name this shortcut">
+        <div class="mode" role="radiogroup" aria-label="Mode">
+          <button type="button" role="radio" data-mode="exclude">Hide</button>
+          <button type="button" role="radio" data-mode="include">Show only</button>
+        </div>
+        <span class="count"></span>
+        <button class="icon expand" type="button" aria-expanded="false" aria-label="Edit patterns">
+          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div class="body">
+        <div class="body-inner">
+          <div class="editor">
+            <pre class="hl" aria-hidden="true"></pre>
+            <textarea class="code" spellcheck="false" wrap="off" autocapitalize="off" autocomplete="off" aria-label="Patterns, one per line"></textarea>
+          </div>
+          <div class="card-foot">
+            <span class="tip">One pattern per line. Lines starting with <code class="t-com">#</code> are notes.</span>
+            <button class="btn danger remove" type="button">Delete shortcut</button>
+          </div>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <script src="shared.js"></script>
+  <script src="liquid.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>
