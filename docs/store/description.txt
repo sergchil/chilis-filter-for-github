@@ -1,0 +1,30 @@
+Pull requests are full of files nobody needs to read: generated code, lock files, mocks, snapshots and test fixtures. Chili's Filter for GitHub hides them, so you review only the code a person wrote.
+
+HOW IT WORKS
+A funnel button appears next to "Filter files" on the Files changed tab of any pull request. Open it and switch on a shortcut. Matching files leave both the diff and the file tree. Switch it off and they come back.
+
+Every shortcut shows how many files it hides in the pull request you are looking at, and the button shows the total. No guessing.
+
+BUILT IN
+• Go: generated code (.pb.go, _gen.go, mocks), go.sum, golden files, test data, images
+• C#: Designer and generated files, EF model snapshots, packages.lock.json, Verify snapshots, test data
+• Flutter: .g.dart, .freezed.dart, mocks, pubspec.lock, goldens, images and fonts
+• "No tests" shortcuts for each language
+
+MAKE YOUR OWN
+Add any language and write your own shortcuts, one pattern per line:
+• .go or _test.go matches the end of a file name
+• mock_ matches the start of a file name
+• vendor/ matches a folder anywhere in the path
+• *.pb.go and api/**/*.json are globs
+A "Hide" shortcut hides matching files. A "Show only" shortcut hides everything else.
+
+Not sure what to hide? "Copy AI prompt" copies a ready prompt that asks your AI assistant to suggest shortcuts for your repository.
+
+THEMES
+The settings page comes in three styles (Liquid, GitHub and shadcn), each in light and dark, or following your system.
+
+PRIVACY
+The extension runs only on github.com and reads nothing but file names. It makes no network requests, has no analytics and needs no account. Your shortcuts are saved in Chrome sync storage.
+
+Free and open source: https://github.com/sergchil/chilis-filter-for-github

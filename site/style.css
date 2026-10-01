@@ -204,3 +204,10 @@ p { margin: 0; }
   .hero { padding: 24px 0 48px; }
   .files { font-size: 12.5px; }
 }
+
+/* ---------- privacy policy ---------- */
+.legal { max-width: 68ch; padding: 40px 0 96px; }
+.legal h1 { font-size: clamp(36px, 5vw, 56px); font-variation-settings: "wdth" 120; }
+.legal h2 { font-size: 24px; margin-top: 40px; font-variation-settings: "wdth" 100; }
+.legal p { margin-top: 12px; color: var(--muted); }
+.legal .legal-date { font-size: 15px; }
