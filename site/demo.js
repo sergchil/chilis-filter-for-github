@@ -127,25 +127,37 @@
     $('count-total').textContent = files.length;
     $('meter').style.width = `${(hidden / files.length) * 100}%`;
 
-    rowsEl.textContent = '';
-    for (const s of shortcuts.filter((x) => x.group === group)) {
+    // Rows are built once per language and then updated in place, so the switches can animate.
+    const list = shortcuts.filter((x) => x.group === group);
+    if (rowsEl.dataset.group !== group) {
+      rowsEl.dataset.group = group;
+      rowsEl.textContent = '';
+      for (const s of list) {
+        const row = el('button', 'row');
+        row.type = 'button';
+        row.setAttribute('role', 'switch');
+        row.title = ghxPatternSummary(s.patterns);
+        row.appendChild(el('span', 'switch'));
+        const text = el('span', 'row-text');
+        text.appendChild(el('span', 'row-label', s.label));
+        text.appendChild(el('span', 'row-sub', s.mode === 'include' ? 'Show only matching files' : 'Hide matching files'));
+        row.appendChild(text);
+        row.appendChild(el('span', 'row-count'));
+        row.addEventListener('click', () => { active.has(s.id) ? active.delete(s.id) : active.add(s.id); render(); });
+        rowsEl.appendChild(row);
+      }
+    }
+    list.forEach((s, i) => {
+      const row = rowsEl.children[i];
       const on = active.has(s.id);
       const matcher = ghxCompileList(s.patterns);
       const n = files.filter((p) => matcher.some((m) => m(p))).length;
-      const row = el('button', 'row' + (on ? ' is-on' : ''));
-      row.type = 'button';
-      row.setAttribute('role', 'switch');
+      row.classList.toggle('is-on', on);
       row.setAttribute('aria-checked', String(on));
-      row.title = ghxPatternSummary(s.patterns);
-      row.appendChild(el('span', 'switch'));
-      const text = el('span', 'row-text');
-      text.appendChild(el('span', 'row-label', s.label));
-      text.appendChild(el('span', 'row-sub', s.mode === 'include' ? 'Show only matching files' : 'Hide matching files'));
-      row.appendChild(text);
-      row.appendChild(el('span', 'row-count' + (n ? '' : ' is-zero'), n ? `hides ${n}` : 'none here'));
-      row.addEventListener('click', () => { on ? active.delete(s.id) : active.add(s.id); render(); });
-      rowsEl.appendChild(row);
-    }
+      const count = row.lastChild;
+      count.className = 'row-count' + (n ? '' : ' is-zero');
+      count.textContent = n ? `hides ${n}` : 'none here';
+    });
   }
 
   customEl.addEventListener('input', () => { custom = customEl.value; render(); });

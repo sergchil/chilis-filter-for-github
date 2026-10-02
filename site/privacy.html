@@ -1,17 +1,16 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-style="liquid" data-mode="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Privacy policy · Chili's Filter for GitHub</title>
   <meta name="description" content="A Chrome extension that hides generated code, lock files and snapshots from GitHub pull requests, so you review only the code a person wrote.">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,200..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
+  <canvas id="liquid" aria-hidden="true"></canvas>
   <header class="top wrap">
     <a class="brand" href="./">
       <img src="icons/icon.svg" alt="" width="32" height="32">
@@ -27,7 +26,7 @@
     <h2>What the extension reads</h2>
     <p>It runs only on github.com pages. On a pull request it reads the names of the changed files, so it can hide the ones that match your shortcuts. This happens in your browser and nothing is sent anywhere.</p>
     <h2>What the extension saves</h2>
-    <p>Your shortcuts, languages and theme are saved in Chrome's own storage (chrome.storage.sync and chrome.storage.local). If you turn on Chrome sync, Chrome copies them to your other browsers. The developer never sees them.</p>
+    <p>Your shortcuts, languages and theme are saved only in your browser, in Chrome's own extension storage (chrome.storage.sync and chrome.storage.local, plus the settings page's local storage for the theme). If you turn on Chrome sync, Chrome copies them to your other browsers. The developer never sees them.</p>
     <h2>What the extension does not do</h2>
     <p>It makes no network requests, has no analytics or tracking, uses no remote code and needs no account.</p>
     <h2>Questions</h2>
@@ -35,9 +34,9 @@
   </main>
 
   <footer class="foot wrap">
-    <span>Free to use, change and share under the <a href="https://github.com/sergchil/chilis-filter-for-github/blob/master/LICENSE">WTFPL</a>. <a href="privacy.html">Privacy policy</a></span>
+    <span>Free to use, change and share under the <a href="https://github.com/sergchil/chilis-filter-for-github/blob/master/LICENSE">WTFPL</a> license. <a href="privacy.html">Privacy policy</a></span>
     <a href="https://github.com/sergchil/chilis-filter-for-github">github.com/sergchil/chilis-filter-for-github</a>
   </footer>
-
+  <script src="liquid.js"></script>
 </body>
 </html>

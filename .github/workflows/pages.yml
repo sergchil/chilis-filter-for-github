@@ -3,7 +3,7 @@ name: Deploy site
 on:
   push:
     branches: [master]
-    paths: ["site/**", "shared.js", "icons/**", "docs/screenshots/**", ".github/workflows/pages.yml"]
+    paths: ["site/**", "shared.js", "liquid.js", "icons/**", "docs/screenshots/**", ".github/workflows/pages.yml"]
   workflow_dispatch:
 
 permissions:
@@ -24,12 +24,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # The demo runs the extension's own shared.js, so the page always matches the shipped defaults.
+      # The demo runs the extension's own shared.js and liquid.js, so the page matches the shipped defaults and settings look.
       - name: Assemble site
         run: |
           mkdir -p _site
           cp -R site/. _site/
-          cp shared.js _site/
+          cp shared.js liquid.js _site/
           cp -R icons _site/icons
           cp -R docs/screenshots _site/screenshots
 
